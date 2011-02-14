@@ -75,10 +75,11 @@ Example:
 a + b;  // correct
 
 
-M4: Long condition
-==================
-If your condition in if, while, for statement is too long to fit in one line,
-the new line needs to be indented not aligned with the body.
+M4: Wrap long lines
+===================
+If your condition in if, while, for statement or a function declaration is too
+long to fit in one line, the new line needs to be indented not aligned with the
+body.
 
 Example:
 1)
@@ -91,6 +92,40 @@ if (call->status == CALL_STATUS_ACTIVE ||
 		call->status == CALL_STATUS_HELD) {  // correct
 	ofono_dbus_dict_append();
 
+3)
+gboolean sim_ust_is_available(unsigned char *service_ust, unsigned char len,
+	num sim_ust_service index) // wrong
+{
+	int a;
+	...
+}
+
+4)
+gboolean sim_ust_is_available(unsigned char *service_ust, unsigned char len,
+					enum sim_ust_service index) // correct
+{
+	int a;
+	...
+}
+
+If the line being wrapped is a function call or function declaration, the
+preferred style is to indent at least past the opening parenthesis. Indenting
+further is acceptable as well (as long as you don't hit the 80 character
+limit).
+
+If this is not possible due to hitting the 80 character limit, then indenting
+as far as possible to the right without hitting the limit is preferred.
+
+Example:
+
+1)
+gboolean sim_ust_is_available(unsigned char *service_ust, unsigned char len,
+		enum sim_ust_service index); // worse
+
+2)
+gboolean sim_ust_is_available(unsigned char *service_ust, unsigned char len,
+						enum sim_ust_service index);
+						// better
 
 M5: Git commit message 50/72 formatting
 =======================================
@@ -208,6 +243,68 @@ default:  // wrong
 However if the enum comes from an external header file outside ofono
 we cannot make any assumption of how the enum is defined and this
 rule might not apply.
+
+M13: Check for pointer being NULL
+=================================
+
+When checking if a pointer or a return value is NULL, explicitly compare to
+NULL rather than use the shorter check with "!" operator.
+
+Example:
+1)
+array = g_try_new0(int, 20);
+if (!array)	// Wrong
+	return;
+
+2)
+if (!g_at_chat_get_slave(chat))	// Wrong
+	return -EINVAL;
+
+3)
+array = g_try_new0(int, 20);
+if (array == NULL)	// Correct
+	return;
+
+
+M14: Always use parenthesis with sizeof
+=======================================
+The expression argument to the sizeof operator should always be in
+parenthesis, too.
+
+Example:
+1)
+memset(stuff, 0, sizeof(*stuff));
+
+2)
+memset(stuff, 0, sizeof *stuff); // Wrong
+
+
+M15: Use void if function has no parameters
+===========================================================
+A function with no parameters must use void in the parameter list.
+
+Example:
+1)
+void foo(void)
+{
+}
+
+2)
+void foo()	// Wrong
+{
+}
+
+M16: Don't use hex value with shift operators
+==============================================
+The expression argument to the shift operators should not be in hex.
+
+Example:
+
+1)
+1 << y
+
+2)
+0x1 << y	// Wrong
 
 O1: Shorten the name
 ====================

@@ -55,6 +55,19 @@ Describes 3GPP specific aspects of Card Application Toolkit (CAT) / STK.
 Describes the testing parameters and test cases for 31.111.
 
 
+Security Specifications
+=======================
+
+- 33.220  Generic bootstrapping architecture (GBA)
+
+Describes the generic bootstrapping architecture used to leverage
+SIM-based authentication.
+
+- 24.109  Bootstrapping interface (Ub) and NAF interface (Ua)
+
+Describes how the GBA authentication is used with, e.g., HTTP.
+
+
 3GPP Specific Services
 ======================
 
@@ -166,3 +179,16 @@ Describes the general background and assumption of wireless features.
 	Capability: Network Perspective
 - S.R0006-808:	Wireless Features Description: Circuit Switched Call Precedence Over
 	CDMA Packet Data Session
+
+Common PCN Handset Specification (CPHS)
+=======================================
+
+This specification includes certain pre-standard extensions to GSM
+standards. oFono implements some of the features found in the Phase 2
+specification, version 4.2.
+
+The specification itself is not publicly available.
+
+Bluetooth Specifications
+========================
+- Dial-up Networking Profile - Bluetooth specification version 1.1 - 22 February 2001

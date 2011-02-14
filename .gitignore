@@ -22,6 +22,7 @@ missing
 stamp-h1
 autom4te.cache
 
+ofono.pc
 include/ofono
 src/builtin.h
 src/ofonod
@@ -39,6 +40,7 @@ unit/test-caif
 unit/test-stkutil
 
 tools/huawei-audio
+tools/auto-enable
 
 gatchat/gsmdial
 gatchat/test-server

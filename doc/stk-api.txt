@@ -10,22 +10,18 @@ Methods		dict GetProperties()
 			Returns properties for the SimToolkit object.  See the
 			properties section for available properties.
 
-			Possible Errors: [service].Error.InvalidArguments
-
-		array{byte} GetIcon(byte id)
-
-			Returns the icon data for icon identified by id.
-
-			Possible Errors: [service].Error.InvalidArguments
-					 [service].Error.InvalidFormat
-					 [service].Error.NotFound
-
 		void SelectItem(byte item, object agent)
 
 			Selects an item from the main menu, thus triggering
 			a new user session.  The agent parameter specifies
 			a new agent to be used for the duration of the
 			user session.
+
+			Possible Errors: [service].Error.InProgress
+					 [service].Error.NotSupported
+					 [service].Error.InvalidArguments
+					 [service].Error.InvalidFormat
+					 [service].Error.Failed
 
 		void RegisterAgent(object path)
 
@@ -35,9 +31,10 @@ Methods		dict GetProperties()
 			received and might not involve interaction from the
 			user.
 
-			Possible Errors: [service].Error.InvalidArguments
+			Possible Errors: [service].Error.InProgress
+					 [service].Error.InvalidArguments
 					 [service].Error.InvalidFormat
-					 [service].Error.InUse
+					 [service].Error.Failed
 
 		void UnregisterAgent(object path)
 
@@ -46,9 +43,7 @@ Methods		dict GetProperties()
 			are rejected.
 
 			Possible Errors: [service].Error.InvalidArguments
-					 [service].Error.InvalidFormat
-					 [service].Error.NotFound
-					 [service].Error.NotAuthorized
+					 [service].Error.Failed
 
 Signals		PropertyChanged(string property, variant value)
 
@@ -116,6 +111,7 @@ Methods		byte RequestSelection(string title, byte icon_id,
 			cleared prior to the display of this text.
 
 			Possible Errors: [service].Error.SimToolkit.GoBack
+					 [service].Error.SimToolkit.Busy
 
 			Implementation notes:
 
@@ -248,14 +244,30 @@ Methods		byte RequestSelection(string title, byte icon_id,
 
 			Possible Errors: [service].Error.SimToolkit.EndSession
 
-		void Cancel()
+		void DisplayActionInformation(string text, byte icon_id)
+
+			Supplies a text string and/or icon concerning the
+			current activity in the terminal and UICC.  The
+			text should be displayed to the user on screen
+			until the call is canceled using Cancel().  This
+			method should not return.
+
+		boolean ConfirmLaunchBrowser(string information,
+						byte icon_id, string url)
+
+			Asks the agent to request user to confirm launch
+			browser. If confirmed, then the agent should send
+			confirmation message to oFono and then should open
+			the launch browser with the given url.
+
+		void Cancel() [noreply]
 
 			Asks the agent to cancel any ongoing operation in
 			progress.  This is usually either because the agent
-			is taking too long to respond or the Sim Application
-			has terminated the session.
+			is taking too long to respond, the Sim Application
+			has terminated the session or a task has finished.
 
-		void Release()
+		void Release() [noreply]
 
 			Agent is being released, possibly because of oFono
 			terminating, SimToolkit interface torn down or modem
