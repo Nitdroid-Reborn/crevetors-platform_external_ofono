@@ -3189,7 +3189,7 @@ static GSList *sms_tx_load(const char *imsi, const struct dirent *dir)
 		return NULL;
 
 	path = g_strdup_printf(SMS_TX_BACKUP_PATH "/%s", imsi, dir->d_name);
-	len = scandir(path, &pdus, sms_tx_load_filter, versionsort);
+	len = scandir(path, &pdus, sms_tx_load_filter, alphasort);
 	g_free(path);
 
 	if (len < 0)
@@ -3245,7 +3245,7 @@ GQueue *sms_tx_queue_load(const char *imsi)
 
 	path = g_strdup_printf(SMS_TX_BACKUP_PATH, imsi);
 
-	len = scandir(path, &entries, sms_tx_queue_filter, versionsort);
+	len = scandir(path, &entries, sms_tx_queue_filter, alphasort);
 	if (len < 0)
 		goto nodir_exit;
 
@@ -3341,7 +3341,7 @@ void sms_tx_backup_free(const char *imsi, unsigned long id,
 	path = g_strdup_printf(SMS_TX_BACKUP_PATH_DIR,
 					imsi, id, flags, uuid);
 
-	len = scandir(path, &entries, NULL, versionsort);
+	len = scandir(path, &entries, NULL, alphasort);
 
 	if (len < 0)
 		return;

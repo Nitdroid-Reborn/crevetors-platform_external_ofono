@@ -33,6 +33,7 @@ LOCAL_SRC_FILES:= \
 	gdbus/object.c \
 	gdbus/polkit.c \
 	gdbus/watch.c \
+	gisi/message.c \
 	gisi/netlink.c \
 	gisi/socket.c \
 	gisi/client.c \
@@ -40,7 +41,6 @@ LOCAL_SRC_FILES:= \
 	gisi/pep.c \
 	gisi/pipe.c \
 	gisi/iter.c \
-	gisi/verify.c \
 	gisi/server.c \
 	drivers/isimodem/isimodem.c \
 	drivers/isimodem/audio-settings.c \
@@ -78,6 +78,7 @@ LOCAL_SRC_FILES:= \
 	src/network.c \
 	src/voicecall.c \
 	src/ussd.c \
+	src/message.c \
 	src/sms.c \
 	src/stk.c \
 	src/stkagent.c \
@@ -99,6 +100,7 @@ LOCAL_SRC_FILES:= \
 	src/cbs.c \
 	src/watch.c \
 	src/call-volume.c \
+	src/gprs-provision.c \
 	src/gprs.c \
 	src/storage.c \
 	src/util.c \
@@ -107,7 +109,9 @@ LOCAL_SRC_FILES:= \
 ##
 
 
+
 LOCAL_MODULE:= ofonod
+LOCAL_MODULE_TAGS:=optional
 
 LOCAL_C_INCLUDES := \
 	$(KERNEL_HEADERS) \
@@ -125,8 +129,11 @@ LOCAL_SHARED_LIBRARIES := \
 	liblog \
 	libcutils \
 	libdbus	\
-	libglib-2.0
+	libglib-2.0 \
+	libdl
 ##
+LOCAL_LDLIBS += -ldl
+
 
 include $(BUILD_EXECUTABLE)
 
