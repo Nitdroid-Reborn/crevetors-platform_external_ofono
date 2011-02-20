@@ -353,14 +353,14 @@ static void send_context_authenticate(GIsiClient *client, void *opaque)
 		cd->handle,
 		2,	/* sub blocks */
 		GPDS_USER_NAME_INFO,
-		3 + username_len + 3,
+		3 + username_len,
 		username_len,
 		/* Username goes here */
 	};
 
 	const unsigned char bottom[] = {
 		GPDS_PASSWORD_INFO,
-		3 + password_len + 3,
+		3 + password_len,
 		password_len,
 		/* Password goes here */
 	};
@@ -406,7 +406,8 @@ static void link_conf_cb(const GIsiMessage *msg, void *opaque)
 		4,		/* subblock length */
 		0, 0,		/* padding */
 		GPDS_APN_INFO,
-		3 + apn_len + 3,
+		//3 + apn_len + 3,
+		3 + apn_len,
 		apn_len,
 	};
 
